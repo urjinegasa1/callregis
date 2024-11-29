@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .welcome-message {
+            font-size: 24px;
+            color: #333;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1 class="welcome-message">Welcome Admin, <span id="username"></span>!</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="content">
+            <h2>Admin Dashboard</h2>
+            <p>This is your admin dashboard. You have full administrative privileges.</p>
+        </div>
+    </div>
+
+    <script>
+        // Display username from localStorage
+        document.getElementById('username').textContent = 
+            localStorage.getItem('username') || 'Admin';
+
+        // Logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+
+        // Check if user is logged in and is admin
+        if (!localStorage.getItem('username') || localStorage.getItem('role') !== 'admin') {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
