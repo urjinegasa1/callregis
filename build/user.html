@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #2c3e50;
+            padding: 20px 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #34495e;
+            margin-bottom: 20px;
+        }
+        .registration-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-group select:focus,
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #4CAF50;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+    }
+
+    .form-group select.error,
+    .form-group input.error,
+    .form-group textarea.error {
+        border-color: #dc3545;
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+        width: auto;
+        margin-top: 20px;
+    }
+        /* Responsive styles */
+        @media (max-width: 768px) {
+        .registration-form {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    }
+
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .sidebar-menu a:hover {
+            background: #34495e;
+            padding-left: 25px;
+        }
+
+        .sidebar-menu a.active {
+            background: #3498db;
+            border-left: 4px solid #2980b9;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .content-area {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: calc(100vh - 140px);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            padding: 8px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: #f5f5f5;
+        }
+.registration-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+    .alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.pending {
+    background-color: #ffeeba;
+    color: #856404;
+}
+
+.status-badge.approved {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-badge.rejected {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.data-table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.data-table td, .data-table th {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.registration-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #4CAF50;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+    }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #27ae60;
+        }
+    </style>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>CRM System</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#approved-calls" class="active" onclick="showSection('approved-calls')">
+                <i class="fas fa-check-circle"></i>Approved Calls
+            </a></li>
+            <li><a href="#new-call" onclick="showSection('new-call')">
+                <i class="fas fa-phone-plus"></i>New Call
+            </a></li>
+            <li><a href="#report" onclick="showSection('report')">
+                <i class="fas fa-chart-bar"></i>Report
+            </a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-info">
+            
+                <p>Welcome, <span id="username"></span>!</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Approved Calls Section -->
+        <div id="approved-calls" class="content-section content-area active">
+            <h2>Approved Calls</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>District</th>
+                        <th>Branch</th>
+                        <th>Status</th>
+                        <th>Problem</th>
+                        <th>Phone</th>
+
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- New Call Section -->
+        <div id="new-call" class="content-section content-area">
+            <h2>New Call</h2>
+            <form id="newCallForm">
+           
+                <div class="form-group">
+                    <label for="bank">District</label>
+                    <select id="bank" name="bank" required onchange="updateDistricts()">
+                        <option value="">Select District</option>
+                        <option value="asella">Assella Branch</option>
+                        <option value="bale">Bale Branch</option>
+                        <!-- Add other banks as needed -->
+                    </select>
+                    <div class="error-message" id="bankError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="district">Branch</label>
+                    <select id="district" name="district" required>
+                        <option value="">Select Branch</option>
+                    </select>
+                    <div class="error-message" id="districtError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="problem">Problem</label>
+                    <select id="problem" name="problem" required>
+                        <option value="">Select Problem</option>
+                        <option value="hardware">Hardware Issue</option>
+                        <option value="software">Software Issue</option>
+                        <option value="network">Network Issue</option>
+                        <option value="printer">Printer Issue</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div class="error-message" id="problemError"></div>
+                </div>
+        
+                <!-- Terminal Selection -->
+                <div class="form-group">
+                    <label for="terminal">Terminal</label>
+                    <select id="terminal" name="terminal" required>
+                        <option value="">Select Terminal</option>
+                        <option value="pos">POS Machine</option>
+                        <option value="atm">ATM</option>
+                        <option value="kiosk">Kiosk</option>
+                        <!-- Add more terminal types as needed -->
+                    </select>
+                    <div class="error-message" id="terminalError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" name="contact" 
+                           pattern="[0-9]{10}" 
+                           placeholder="Enter 10-digit mobile number"
+                           required>
+                    <div class="error-message" id="contactError"></div>
+                </div>
+        
+                <!-- Comments -->
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea id="comments" name="comments" 
+                              rows="4" 
+                              placeholder="Enter additional details about the issue"
+                              required></textarea>
+                    <div class="error-message" id="commentsError"></div>
+                </div>
+        
+                <button type="submit" class="submit-btn">Submit Call</button>
+            </form>
+        </div>
+
+        <!-- Report Section -->
+        <div id="report" class="content-section content-area">
+            <h2>Call Reports</h2>
+            <div class="form-group">
+                <label for="reportMonth">Select Month</label>
+                <select id="reportMonth" onchange="loadReport()">
+                    ${Array.from({length: 12}, (_, i) => {
+                        const month = new Date(0, i).toLocaleString('default', { month: 'long' });
+                        return `<option value="${i + 1}">${month}</option>`;
+                    }).join('')}
+                </select>
+                <button class="download-btn" onclick="downloadReport()">
+                    <i class="fas fa-download"></i> Download CSV
+                </button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Total Calls</th>
+                        <th>Approved Calls</th>
+                        <th>Pending Calls</th>
+                        <th>Total Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+const bankDistricts = {
+    "asella": [
+        "Aseella Branch",
+        "Gasgar Branch",
+        "Chilalo Branch",
+        // Add other HDFC regions
+    ],
+    "bale": [
+        "Bale Branch",
+        "Goro Branch",
+        "Sofuemr Branch",
+        // Add other ICICI zones
+    ]
+};
+function updateDistricts() {
+    const bankSelect = document.getElementById('bank');
+    const districtSelect = document.getElementById('district');
+    const selectedBank = bankSelect.value;
+
+    // Clear existing options
+    districtSelect.innerHTML = '<option value="">Select District</option>';
+
+    if (selectedBank === 'state-bank') {
+        // For State Bank, create category groups
+        Object.keys(bankDistricts[selectedBank]).forEach(category => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = category;
+            
+            bankDistricts[selectedBank][category].forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.toLowerCase().replace(/\s+/g, '-');
+                option.textContent = district;
+                optgroup.appendChild(option);
+            });
+            
+            districtSelect.appendChild(optgroup);
+        });
+    } else if (selectedBank) {
+        // For other banks, add districts directly
+        bankDistricts[selectedBank].forEach(district => {
+            const option = document.createElement('option');
+            option.value = district.toLowerCase().replace(/\s+/g, '-');
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+    }
+}
+
+
+document.head.insertAdjacentHTML('beforeend', `
+<style>
+    /* Styles for the select dropdowns */
+    select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1em;
+    }
+
+    /* Styles for optgroup */
+    optgroup {
+        font-weight: bold;
+        font-style: normal;
+        padding: 8px 0;
+        color: #2c3e50;
+        background-color: #f8f9fa;
+    }
+
+    optgroup option {
+        font-weight: normal;
+        padding: 8px 20px;
+    }
+
+    /* Hover effect for options */
+    option:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Selected option style */
+    option:checked {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+`);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Add validation for district selection
+    document.getElementById('district').addEventListener('change', function() {
+        if (this.value) {
+            this.classList.remove('error');
+            document.getElementById('districtError').style.display = 'none';
+        }
+    });
+});
+    // Form submission handler
+  
+
+
+
+
+
+    // Helper function to show alerts
+    function showAlert(type, message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        const container = document.querySelector('.main-content');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => alertDiv.remove(), 3000);
+    }
+
+    // Show selected section
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Show selected section
+        document.getElementById(sectionId).classList.add('active');
+        
+        // Update active menu item
+        document.querySelectorAll('.sidebar-menu a').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.clear();
+        sessionStorage.clear();
+
+        window.location.href = '/';
+        window.addEventListener('popstate', function() {
+        history.pushState(null, null, '/');
+    });
+    }
+        function checkAuth() {
+        if (!localStorage.getItem('username') || !localStorage.getItem('role')) {
+            window.location.replace('/');
+        }
+        }
+        checkAuth();
+
+// Check auth when page becomes visible
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        checkAuth();
+    }
+});
+
+// Prevent back button after logout
+window.addEventListener('load', function() {
+    window.history.pushState({ noBack: true }, '');
+});
+
+window.addEventListener('popstate', function() {
+    if (window.history.state?.noBack) {
+        window.history.pushState({ noBack: true }, '');
+    }
+});
+
+        // Display username from localStorage
+        document.getElementById('username').textContent = 
+            localStorage.getItem('username') || 'User';
+
+        // Handle new call form submission
+        document.getElementById('newCallForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // Add your form submission logic here
+        });
+
+
+        
+        
+
+        
+
+
+
+// Add this to refresh calls when switching to the approved-calls section
+function showSection(sectionId) {
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    document.getElementById(sectionId).classList.add('active');
+    
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.classList.remove('active');
+    });
+    document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
+
+    // Refresh calls when switching to approved-calls section
+    if (sectionId === 'approved-calls') {
+        loadCalls();
+    }
+}
+
+// Form submission handler
+document.getElementById('newCallForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+    try {
+        // Get form data
+        const formData = {
+            bank: document.getElementById('bank').value,
+            district: document.getElementById('district').value,
+            problem: document.getElementById('problem').value,
+            terminal: document.getElementById('terminal').value,
+            contact: document.getElementById('contact').value.trim(),
+            comments: document.getElementById('comments').value.trim()
+        };
+
+        // Get token from localStorage
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            throw new Error('No authentication token found. Please login again.');
+        }
+
+        // Submit to server
+        const response = await fetch('/api/calls/new', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Show success message
+            showAlert('success', 'Call registered successfully!');
+            
+            // Reset form
+            this.reset();
+            
+            // Update calls table if visible
+            if (document.getElementById('approved-calls').classList.contains('active')) {
+                loadCalls();
+            }
+            
+            // Switch to calls view after delay
+            setTimeout(() => {
+                showSection('approved-calls');
+            }, 1500);
+        } else {
+            throw new Error(data.error || 'Failed to register call');
+        }
+
+    } catch (error) {
+        console.error('Submit error:', error);
+        showAlert('error', error.message);
+        
+        // If token is invalid, redirect to login
+        if (error.message.includes('token')) {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+    } finally {
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Call';
+    }
+});
+
+// Helper function to show alerts
+function showAlert(type, message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    
+    const container = document.querySelector('.main-content');
+    container.insertBefore(alertDiv, container.firstChild);
+    
+    // Remove alert after 3 seconds
+    setTimeout(() => alertDiv.remove(), 3000);
+}
+
+// Function to load calls
+async function loadCalls() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No authentication token found');
+        }
+
+        console.log('Fetching calls...'); // Debug log
+        
+        const response = await fetch('/api/calls', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        console.log('Received data:', data); // Debug log
+
+        if (data.success) {
+            const tbody = document.querySelector('#approved-calls table tbody');
+            tbody.innerHTML = '';
+
+            if (data.calls.length === 0) {
+                // Add a "No calls found" message
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="8" style="text-align: center;">No calls found</td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+
+            data.calls.forEach(call => {
+                const row = document.createElement('tr');
+                const createdDate = new Date(call.createdAt).toLocaleDateString();
+                
+                row.innerHTML = `
+                    <td>${createdDate}</td>
+                    <td>${call.bank || '-'}</td>
+                    <td>${call.district || '-'}</td>
+                    <td><span class="status-badge ${call.status}">${call.status || 'pending'}</span></td>
+                    <td>${call.problem || '-'}</td>
+                    <td>${call.contact || '-'}</td>
+                    <td>${call.comments || '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        } else {
+            throw new Error(data.error || 'Failed to fetch calls');
+        }
+    } catch (error) {
+        console.error('Load calls error:', error);
+        showAlert('error', 'Failed to load calls: ' + error.message);
+        
+        if (error.message.includes('token')) {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+    }
+}
+
+// Make sure the function is called when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page loaded, calling loadCalls()'); // Debug log
+    loadCalls();
+});
+
+// Remove duplicate form from HTML
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('#newCallForm');
+    if (forms.length > 1) {
+        forms[1].remove(); // Remove the duplicate form
+    }
+});
+
+// Add this function to generate month options
+function populateMonths() {
+    const monthSelect = document.getElementById('reportMonth');
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    months.forEach((month, index) => {
+        const option = document.createElement('option');
+        option.value = index + 1;
+        option.textContent = month;
+        monthSelect.appendChild(option);
+    });
+
+    // Set current month as default
+    monthSelect.value = new Date().getMonth() + 1;
+}
+
+// Call this when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    populateMonths();
+});
+
+// Update the download function with better error handling
+async function downloadReport() {
+    try {
+        const month = document.getElementById('reportMonth').value;
+        const token = localStorage.getItem('token');
+        
+        console.log('Downloading report for month:', month); // Debug log
+        
+        const response = await fetch(`/api/calls/report/download?month=${month}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Server error');
+        }
+
+        const blob = await response.blob();
+        if (blob.size === 0) {
+            throw new Error('No data available for the selected month');
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `calls-report-${month}-${new Date().getFullYear()}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        showAlert('success', 'Report downloaded successfully');
+
+    } catch (error) {
+        console.error('Download error:', error);
+        showAlert('error', error.message || 'Failed to download report');
+    }
+}
+    </script>
+    
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+</body>
+</html>
